@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador da Biblioteca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                 <img src="images/logo_escola.png" alt="Logo da Escola">
+            </div>
+            <h1>Sala de Leitura Prof. Antonio Martins da Silva</h1>
+        </header>
+
+        <section id="cadastro-emprestimo">
+            <h2>Cadastro de Empréstimo</h2>
+            <form id="emprestimoForm">
+                <label for="aluno">Nome do Aluno:</label>
+                <input type="text" id="aluno" name="aluno" required>
+
+                <label for="ra">RA do Aluno:</label>
+                <input type="text" id="ra" name="ra" required>
+
+                <label for="ano">Ano do Aluno (ex: 6º ano, 7º ano):</label>
+                <input type="text" id="ano" name="ano" required>
+
+                <label for="livro">Nome do Livro:</label>
+                <input type="text" id="livro" name="livro" required>
+
+                <button type="submit">Cadastrar Empréstimo</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section id="filtros-busca">
+            <h2>Buscar Empréstimos</h2>
+            <div class="filtro-container">
+                <label for="filtroAno">Filtrar por Ano:</label>
+                <select id="filtroAno">
+                    <option value="">Todos os Anos</option>
+                </select>
+
+                <label for="filtroAluno">Buscar por Aluno:</label>
+                <input type="text" id="filtroAluno" placeholder="Nome do aluno">
+            </div>
+            <button id="buscarEmprestimosBtn">Buscar</button>
+        </section>
+
+        <hr>
+
+        <section id="acoes">
+            <h2>Ações</h2>
+            <div class="botoes-container">
+                <button id="gerarExcel">Gerar Relatório Excel</button>
+                <button id="limparListaBtn" style="background-color: #d9534f;">Limpar Lista</button>
+            </div>
+        </section>
+
+        <div id="mensagem"></div>
+
+        <section id="listaEmprestimos">
+            </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
