@@ -1,3 +1,4 @@
+/* Estilos Gerais */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f7f7f7;
@@ -49,7 +50,8 @@ h2 {
     padding-bottom: 10px;
 }
 
-form {
+/* Estilos de formulário e botões */
+form, .filtro-container {
     display: flex;
     flex-direction: column;
 }
@@ -96,6 +98,20 @@ button:hover {
     background-color: #c82333;
 }
 
+.devolver-btn {
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.devolver-btn:hover {
+    background-color: #ec971f;
+}
+
+/* Estilos de layout e mensagens */
 hr {
     border: 0;
     border-top: 1px solid #eee;
@@ -150,7 +166,7 @@ hr {
     margin-bottom: 20px;
 }
 
-/* Estilos Específicos para Telas Pequenas */
+/* Estilos de responsividade para telas pequenas */
 @media (max-width: 768px) {
     .container {
         padding: 20px;

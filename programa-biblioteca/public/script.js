@@ -1,3 +1,4 @@
+// Adiciona um listener para o formulário de cadastro
 document.getElementById('emprestimoForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -7,9 +8,10 @@ document.getElementById('emprestimoForm').addEventListener('submit', async (e) =
     submitButton.disabled = true;
     mensagem.textContent = 'Enviando...';
 
+    // Coleta os valores do formulário
     const aluno = document.getElementById('aluno').value;
-    const ra = document.getElementById('ra').value;
-    const ano = document.getElementById('ano').value;
+    const ra = parseInt(document.getElementById('ra').value);
+    const ano = parseInt(document.getElementById('ano').value);
     const livro = document.getElementById('livro').value;
 
     try {
@@ -21,6 +23,7 @@ document.getElementById('emprestimoForm').addEventListener('submit', async (e) =
             body: JSON.stringify({ aluno, ra, ano, livro }),
         });
 
+        // Lida com as respostas do servidor
         if (response.status === 409) {
             const errorData = await response.json();
             mensagem.textContent = errorData.message;
@@ -29,20 +32,22 @@ document.getElementById('emprestimoForm').addEventListener('submit', async (e) =
             const data = await response.json();
             mensagem.textContent = data.message;
             mensagem.style.color = '#4CAF50';
-            
+
             document.getElementById('emprestimoForm').reset();
-            carregarAnosDisponiveis(); // Atualiza a lista de anos disponíveis
-            buscarEmprestimos(); // Atualiza a lista de empréstimos
+            carregarAnosDisponiveis();
+            buscarEmprestimos();
         }
     } catch (error) {
         console.error('Erro ao cadastrar empréstimo:', error);
         mensagem.textContent = 'Ocorreu um erro ao cadastrar o empréstimo.';
         mensagem.style.color = 'red';
     } finally {
+        // Reabilita o botão após a conclusão da requisição
         submitButton.disabled = false;
     }
 });
 
+// Adiciona um listener para o botão de gerar relatório
 document.getElementById('gerarExcel').addEventListener('click', async () => {
     const mensagem = document.getElementById('mensagem');
     mensagem.textContent = 'Gerando relatório...';
@@ -53,6 +58,7 @@ document.getElementById('gerarExcel').addEventListener('click', async () => {
         });
 
         if (response.ok) {
+            // Cria um link de download para o arquivo retornado
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -61,7 +67,7 @@ document.getElementById('gerarExcel').addEventListener('click', async () => {
             document.body.appendChild(a);
             a.click();
             a.remove();
-            
+
             mensagem.textContent = 'Relatório Excel gerado e baixado!';
             mensagem.style.color = '#4CAF50';
         } else {
@@ -76,21 +82,25 @@ document.getElementById('gerarExcel').addEventListener('click', async () => {
     }
 });
 
+// Adiciona um listener para o botão de limpar a lista
 document.getElementById('limparListaBtn').addEventListener('click', async () => {
+    // Pede confirmação antes de apagar todos os dados
     if (confirm('Tem certeza que deseja limpar todos os empréstimos? Esta ação não pode ser desfeita.')) {
         try {
             const mensagem = document.getElementById('mensagem');
             mensagem.textContent = 'Limpando a lista...';
             mensagem.style.color = '#333';
 
+            // Envia uma requisição DELETE para a API
             const response = await fetch('/api/emprestimos', {
                 method: 'DELETE',
             });
             const data = await response.json();
-            
+
             mensagem.textContent = data.message;
             mensagem.style.color = '#4CAF50';
-            
+
+            // Atualiza a interface
             buscarEmprestimos();
             carregarAnosDisponiveis();
         } catch (error) {
@@ -102,19 +112,20 @@ document.getElementById('limparListaBtn').addEventListener('click', async () => 
     }
 });
 
+// Função para popular o dropdown de anos disponíveis
 async function carregarAnosDisponiveis() {
     try {
         const response = await fetch('/api/anos-disponiveis');
         const anos = await response.json();
         const filtroAnoSelect = document.getElementById('filtroAno');
 
-        // Limpa as opções existentes, exceto a primeira
+        // Limpa as opções existentes e adiciona a opção padrão
         filtroAnoSelect.innerHTML = '<option value="">Todos os Anos</option>';
 
         anos.forEach(ano => {
             const option = document.createElement('option');
             option.value = ano;
-            option.textContent = ano;
+            option.textContent = `${ano}º ano`;
             filtroAnoSelect.appendChild(option);
         });
     } catch (error) {
@@ -122,11 +133,13 @@ async function carregarAnosDisponiveis() {
     }
 }
 
+// Função principal para buscar, filtrar e exibir os empréstimos
 async function buscarEmprestimos() {
     try {
         const filtroAno = document.getElementById('filtroAno').value;
         const filtroAluno = document.getElementById('filtroAluno').value;
 
+        // Constrói a URL com os parâmetros de filtro
         let url = '/api/emprestimos';
         const params = new URLSearchParams();
         if (filtroAno) params.append('ano', filtroAno);
@@ -142,6 +155,7 @@ async function buscarEmprestimos() {
         listaEmprestimosDiv.innerHTML = '';
 
         if (emprestimos.length > 0) {
+            // Agrupa os empréstimos por ano para a exibição na tabela
             const emprestimosAgrupados = emprestimos.reduce((acc, emprestimo) => {
                 const ano = emprestimo.ano;
                 if (!acc[ano]) {
@@ -151,9 +165,10 @@ async function buscarEmprestimos() {
                 return acc;
             }, {});
 
+            // Cria o HTML para cada grupo de ano
             for (const ano in emprestimosAgrupados) {
                 const anoTitle = document.createElement('h3');
-                anoTitle.textContent = `Ano: ${ano}`;
+                anoTitle.textContent = `Ano: ${ano}º`;
                 listaEmprestimosDiv.appendChild(anoTitle);
 
                 const table = document.createElement('table');
@@ -165,6 +180,9 @@ async function buscarEmprestimos() {
                             <th>RA</th>
                             <th>Livro</th>
                             <th>Data</th>
+                            <th>Status</th>
+                            <th>Devolução</th>
+                            <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -174,13 +192,13 @@ async function buscarEmprestimos() {
 
                 emprestimosAgrupados[ano].forEach(emprestimo => {
                     const row = tbody.insertRow();
-                    
+
                     const alunoCell = row.insertCell(0);
                     alunoCell.innerText = emprestimo.aluno;
                     alunoCell.setAttribute('data-label', 'Aluno');
 
                     const anoCell = row.insertCell(1);
-                    anoCell.innerText = emprestimo.ano;
+                    anoCell.innerText = `${emprestimo.ano}º ano`;
                     anoCell.setAttribute('data-label', 'Ano');
 
                     const raCell = row.insertCell(2);
@@ -194,6 +212,24 @@ async function buscarEmprestimos() {
                     const dataCell = row.insertCell(4);
                     dataCell.innerText = new Date(emprestimo.dataEmprestimo).toLocaleDateString('pt-BR');
                     dataCell.setAttribute('data-label', 'Data');
+
+                    const statusCell = row.insertCell(5);
+                    statusCell.setAttribute('data-label', 'Status');
+                    statusCell.innerText = emprestimo.devolvido ? 'Devolvido' : 'Emprestado';
+
+                    const devolucaoCell = row.insertCell(6);
+                    devolucaoCell.setAttribute('data-label', 'Devolução');
+                    devolucaoCell.innerText = emprestimo.dataDevolucao ? new Date(emprestimo.dataDevolucao).toLocaleDateString('pt-BR') : '-';
+
+                    const acaoCell = row.insertCell(7);
+                    acaoCell.setAttribute('data-label', 'Ação');
+                    if (!emprestimo.devolvido) {
+                        const devolverBtn = document.createElement('button');
+                        devolverBtn.textContent = 'Devolver';
+                        devolverBtn.classList.add('devolver-btn');
+                        devolverBtn.onclick = () => marcarDevolucao(emprestimo.ra);
+                        acaoCell.appendChild(devolverBtn);
+                    }
                 });
             }
 
@@ -208,8 +244,27 @@ async function buscarEmprestimos() {
     }
 }
 
+// Função para enviar a requisição de devolução
+async function marcarDevolucao(ra) {
+    if (confirm(`Tem certeza que deseja marcar o empréstimo do RA ${ra} como devolvido?`)) {
+        try {
+            const response = await fetch(`/api/emprestimos/${ra}/devolver`, {
+                method: 'PUT',
+            });
+            const data = await response.json();
+            alert(data.message);
+            buscarEmprestimos(); // Atualiza a lista na tela
+        } catch (error) {
+            console.error('Erro ao marcar como devolvido:', error);
+            alert('Erro ao marcar como devolvido.');
+        }
+    }
+}
+
+// Eventos dos botões de busca
 document.getElementById('buscarEmprestimosBtn').addEventListener('click', buscarEmprestimos);
 
+// Garante que a lista de anos e de empréstimos são carregadas quando a página é aberta
 document.addEventListener('DOMContentLoaded', () => {
     carregarAnosDisponiveis();
     buscarEmprestimos();

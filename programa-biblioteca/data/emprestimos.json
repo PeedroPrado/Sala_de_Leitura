@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "aluno": "Pedro",
+    "ra": 123345342,
+    "ano": 7,
+    "dataEmprestimo": "2025-08-05T13:39:41.716Z",
+    "livro": "Teste",
+    "devolvido": false
+  },
+  {
+    "aluno": "Tony",
+    "ra": 126313172,
+    "ano": 9,
+    "dataEmprestimo": "2025-08-05T13:41:30.442Z",
+    "livro": "teste2",
+    "devolvido": true,
+    "dataDevolucao": "2025-08-05T13:41:43.097Z"
+  }
+]
