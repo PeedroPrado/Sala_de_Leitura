@@ -38,23 +38,23 @@ O sistema oferece as seguintes funcionalidades:
 
 A estrutura de pastas foi organizada para separar as responsabilidades do frontend e do backend, facilitando o desenvolvimento e a manutenção.
 
-programa-biblioteca/
-├── src/
-│   ├── interfaces/
-│   │   └── Emprestimo.ts         # Interface de dados do empréstimo
-│   ├── services/
-│   │   ├── EmprestimoService.ts   # Lógica principal de negócios
-│   │   └── ExcelService.ts        # Lógica para geração de Excel
-│   ├── app.ts                     # Configuração do servidor Express
-│   └── index.ts                   # Ponto de entrada da aplicação
-├── public/
-│   ├── index.html                 # Página principal da interface
-│   ├── style.css                  # Estilos CSS da aplicação
-│   └── script.js                  # Lógica JavaScript do frontend
-├── data/
-│   └── emprestimos.json           # Banco de dados em formato JSON
-├── package.json                   # Gerenciador de dependências e scripts
-└── tsconfig.json                  # Configurações do TypeScript
+programa-biblioteca/ <br>
+├── src/ <br>
+│   ├── interfaces/ <br>
+│   │   └── Emprestimo.ts         # Interface de dados do empréstimo <br>
+│   ├── services/ <br>
+│   │   ├── EmprestimoService.ts   # Lógica principal de negócios <br>
+│   │   └── ExcelService.ts        # Lógica para geração de Excel <br>
+│   ├── app.ts                     # Configuração do servidor Express <br>
+│   └── index.ts                   # Ponto de entrada da aplicação <br>
+├── public/ <br>
+│   ├── index.html                 # Página principal da interface <br>
+│   ├── style.css                  # Estilos CSS da aplicação <br>
+│   └── script.js                  # Lógica JavaScript do frontend <br>
+├── data/ <br>
+│   └── emprestimos.json           # Banco de dados em formato JSON <br>
+├── package.json                   # Gerenciador de dependências e scripts <br>
+└── tsconfig.json                  # Configurações do TypeScript <br>
 
 
 ## ⚙️ Como Rodar o Projeto
