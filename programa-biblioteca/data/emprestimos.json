@@ -1,19 +1,28 @@
 [
   {
-    "aluno": "Pedro",
-    "ra": 123345342,
-    "ano": 7,
-    "dataEmprestimo": "2025-08-05T13:39:41.716Z",
+    "aluno": "Pedro Henrique Prado de Novaes",
+    "ra": 1232434873,
+    "ano": 9,
+    "dataEmprestimo": "2025-08-05T17:33:57.132Z",
     "livro": "Teste",
-    "devolvido": false
+    "devolvido": true,
+    "dataDevolucao": "2025-08-05T17:34:39.977Z"
   },
   {
-    "aluno": "Tony",
-    "ra": 126313172,
-    "ano": 9,
-    "dataEmprestimo": "2025-08-05T13:41:30.442Z",
-    "livro": "teste2",
+    "aluno": "pedro",
+    "ra": 1522165,
+    "ano": 6,
+    "dataEmprestimo": "2025-08-05T17:34:23.855Z",
+    "livro": "Teste",
     "devolvido": true,
-    "dataDevolucao": "2025-08-05T13:41:43.097Z"
+    "dataDevolucao": "2025-08-05T17:34:45.015Z"
+  },
+  {
+    "aluno": "Pedro Henrique Prado de Novaes",
+    "ra": 1232434873,
+    "ano": 9,
+    "dataEmprestimo": "2025-08-05T17:40:28.939Z",
+    "livro": "teste22",
+    "devolvido": false
   }
 ]
